@@ -8,7 +8,7 @@ namespace Personagem
     {
         public string Nome { get; set; }
         public string Tipo { get; set; }
-        public string Precisao { get; set; }
+        public int Precisao { get; set; }
         public int Forca { get; set; }
         public int PP { get; set; }
         public int MaxPP { get; set; }

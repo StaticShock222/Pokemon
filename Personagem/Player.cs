@@ -2,6 +2,11 @@
 {
     public class Player
     {
+        public Movimento movimento1;
+        public Movimento movimento2;
+        public Movimento movimento3;
+        public Movimento movimento4;
+
         public enum TipoElemento
         {
             Fogo,

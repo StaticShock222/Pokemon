@@ -8,24 +8,69 @@ public static class Program
 
         Player player1 = new Player
         {
-            Nome = "Charmander",
+            Nome = "Charizard",
             Tipo = Player.TipoElemento.Fogo,
-            HP = 100
+            HP = 100,
+            movimento1 = new Movimento
+            {
+                Nome = "Lança Chamas",
+                Tipo = "Fogo",
+                Precisao = 80,
+                Forca = 90,
+                PP = 15,
+                MaxPP = 15
+            },
+            movimento2 = new Movimento
+            {
+                Nome = "Fúria do Dragão",
+                Tipo = "Fogo",
+                Precisao = 70,
+                Forca = 100,
+                PP = 10,
+                MaxPP = 10
+            },
+            movimento3 = new Movimento
+            {
+                Nome = "Voar",
+                Tipo = "Normal",
+                Precisao = 100,
+                Forca = 80,
+                PP = 15,
+                MaxPP = 15
+            },
+            movimento4 = new Movimento
+            {
+                Nome = "Investida",
+                Tipo = "Normal",
+                Precisao = 100,
+                Forca = 50,
+                PP = 20,
+                MaxPP = 20
+            }
         };
 
 
         Player player2 = new Player
         {
-            Nome = "Bulbasaur",
+            Nome = "Venusaur",
             Tipo = Player.TipoElemento.Planta,
             HP = 100
         };
 
         Player player3 = new Player
         {
-            Nome = "Squirtle",
+            Nome = "Blastoise",
             Tipo = Player.TipoElemento.Agua,
-            HP = 100
+            HP = 100,
+            movimento1 = new Movimento
+            {
+                Nome = "Jato d'Água",
+                Tipo = "Agua",
+                Precisao = 60,
+                Forca = 40,
+                PP = 15,
+                MaxPP = 15
+            }
         };
 
         Console.WriteLine($"Pokemon 1: {player1.Nome}, Tipo: {player1.Tipo}, HP: {player1.HP}");
@@ -38,10 +83,74 @@ public static class Program
             Console.WriteLine("Escolha inválida. Digite um número entre 1 e 3.");
             escolha = int.Parse(Console.ReadLine());
         }
-        while (escolha == 1)
+        Player escolhido;
+        switch (escolha)
         {
-            Oponente oponente = new Oponente();
-
+            case 1:
+                escolhido = player1;
+                break;
+            case 2:
+                escolhido = player2;
+                break;
+            default:
+                escolhido = player3;
+                break;
         }
+
+        Oponente oponente = new Oponente();
+
+        Console.WriteLine($"Você escolheu o {escolhido.Nome}. Seu oponente é: {oponente.Nome}");
+        Console.WriteLine($"Seu HP: {escolhido.HP}. Agora, escolha seu ataque de 1 a 4 no menu:");
+        while (escolhido.HP > 0 && oponente.HP > 0)
+        {
+            Console.WriteLine($"Escolha seu ataque: 1 - {escolhido.movimento1.Nome}, 2 - {escolhido.movimento2.Nome}, 3 - {escolhido.movimento3.Nome}, 4 - {escolhido.movimento4.Nome}");
+            escolha = int.Parse(Console.ReadLine());
+            while (escolha < 1 || escolha > 4)
+            {
+                Console.WriteLine("Escolha inválida. Digite um número entre 1 e 4.");
+                escolha = int.Parse(Console.ReadLine());
+            }
+            Movimento ataqueEscolhido;
+            switch (escolha)
+            {
+                case 1:
+                    ataqueEscolhido = escolhido.movimento1;
+                    break;
+                case 2:
+                    ataqueEscolhido = escolhido.movimento2;
+                    break;
+                case 3:
+                    ataqueEscolhido = escolhido.movimento3;
+                    break;
+                default:
+                    ataqueEscolhido = escolhido.movimento4;
+                    break;
+            }
+            Random rand = new Random();
+            int chanceAcerto = rand.Next(0, 100);
+            if (chanceAcerto <= ataqueEscolhido.Precisao)
+            {
+                oponente.HP -= ataqueEscolhido.Forca;
+                Console.WriteLine($"Você usou {ataqueEscolhido.Nome}! O oponente perdeu {ataqueEscolhido.Forca} de HP. HP do oponente: {oponente.HP}");
+            }
+            else
+            {
+                Console.WriteLine($"Você usou {ataqueEscolhido.Nome}, mas errou!");
+            }
+            if (oponente.HP <= 0)
+            {
+                Console.WriteLine("Parabéns! Você derrotou o oponente!");
+                break;
+            }
+            int danoOponente = oponente.Movimento?.Forca ?? 0;
+            escolhido.HP -= danoOponente;
+            Console.WriteLine($"O oponente atacou usando {oponente.Movimento?.Nome}! Você perdeu {danoOponente} de HP. Seu HP: {escolhido.HP}");
+            if (escolhido.HP <= 0)
+            {
+                Console.WriteLine("Você foi derrotado pelo oponente!");
+                break;
+            }
+        }
+        Console.ReadLine();
     }
 }
