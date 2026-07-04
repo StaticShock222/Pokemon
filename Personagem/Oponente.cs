@@ -10,7 +10,7 @@ namespace Personagem
         
         public int HP { get; set; } = 100;
         public Movimento Movimento { get; set; }
-        public static List<Movimento> Movimentos { get; set; } = new List<Movimento>
+        public List<Movimento> Movimentos { get; set; } = new List<Movimento>
         {
             new Movimento
             {

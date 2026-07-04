@@ -5,50 +5,13 @@ public static class Program
     public static void Main(string[] args)
     {
         Console.WriteLine("Digite um número relativo ao pokemon que deseja escolher:");
-
         Player player1 = new Player
         {
             Nome = "Charizard",
             Tipo = Player.TipoElemento.Fogo,
             HP = 100,
-            movimento1 = new Movimento
-            {
-                Nome = "Lança Chamas",
-                Tipo = "Fogo",
-                Precisao = 80,
-                Forca = 90,
-                PP = 15,
-                MaxPP = 15
-            },
-            movimento2 = new Movimento
-            {
-                Nome = "Fúria do Dragão",
-                Tipo = "Fogo",
-                Precisao = 70,
-                Forca = 100,
-                PP = 10,
-                MaxPP = 10
-            },
-            movimento3 = new Movimento
-            {
-                Nome = "Voar",
-                Tipo = "Normal",
-                Precisao = 100,
-                Forca = 80,
-                PP = 15,
-                MaxPP = 15
-            },
-            movimento4 = new Movimento
-            {
-                Nome = "Investida",
-                Tipo = "Normal",
-                Precisao = 100,
-                Forca = 50,
-                PP = 20,
-                MaxPP = 20
-            }
+            Movimentos = ListaMovimentos.MovimentosCharizard.ToList()
         };
-
 
         Player player2 = new Player
         {
@@ -62,15 +25,7 @@ public static class Program
             Nome = "Blastoise",
             Tipo = Player.TipoElemento.Agua,
             HP = 100,
-            movimento1 = new Movimento
-            {
-                Nome = "Jato d'Água",
-                Tipo = "Agua",
-                Precisao = 60,
-                Forca = 40,
-                PP = 15,
-                MaxPP = 15
-            }
+
         };
 
         Console.WriteLine($"Pokemon 1: {player1.Nome}, Tipo: {player1.Tipo}, HP: {player1.HP}");
@@ -126,8 +81,7 @@ public static class Program
                     ataqueEscolhido = escolhido.movimento4;
                     break;
             }
-            Random rand = new Random();
-            int chanceAcerto = rand.Next(0, 100);
+            int chanceAcerto = Random.Shared.Next(1, 101);
             if (chanceAcerto <= ataqueEscolhido.Precisao)
             {
                 oponente.HP -= ataqueEscolhido.Forca;
@@ -144,7 +98,7 @@ public static class Program
             }
             int danoOponente = oponente.Movimento?.Forca ?? 0;
             escolhido.HP -= danoOponente;
-            Console.WriteLine($"O oponente atacou usando {oponente.Movimento?.Nome}! Você perdeu {danoOponente} de HP. Seu HP: {escolhido.HP}");
+            Console.WriteLine($"O oponente atacou usando {oponente.Movimentos[1].Nome}! Você perdeu {danoOponente} de HP. Seu HP: {escolhido.HP}");
             if (escolhido.HP <= 0)
             {
                 Console.WriteLine("Você foi derrotado pelo oponente!");
